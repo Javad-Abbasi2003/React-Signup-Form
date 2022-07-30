@@ -41,7 +41,7 @@ export const validate = (data) => {
   }
 
   if (!data.policy) {
-    errors.policy = "Please accept our terms and conditions";
+    errors.policy = "Please accept our terms";
   } else {
     delete errors.policy;
   }

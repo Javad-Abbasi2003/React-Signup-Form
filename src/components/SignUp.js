@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import styles from "./SignUp.module.css";
 
 import { validate } from "./validate";
 import { toastify } from "./toastify";
@@ -28,7 +29,10 @@ const SignUp = () => {
     }
   };
   const focusHandler = (event) => {
-    setFocused({ ...focused, [event.target.name]: true });
+    setTimeout(
+      () => setFocused({ ...focused, [event.target.name]: true }),
+      100
+    );
   };
   const submitHandler = (event) => {
     event.preventDefault();
@@ -42,17 +46,22 @@ const SignUp = () => {
         confirmPassword: true,
         policy: true,
       });
-      toastify("error", "Invalid data entered! Correct errors");
+      toastify("error", "Please fill in the following fields correctly!");
     }
   };
 
   return (
-    <div>
-      <form onSubmit={submitHandler}>
-        <h2>Sign Up</h2>
-        <div>
+    <div className={styles.container}>
+      <form className={styles.formContainer} onSubmit={submitHandler}>
+        <h2 className={styles.title}>Sign Up</h2>
+        <div className={styles.inputContainer}>
           <label>Name</label>
           <input
+            className={
+              errors.name && focused.name
+                ? styles.textInputError
+                : styles.textInput
+            }
             type="text"
             name="name"
             value={data.name}
@@ -60,11 +69,18 @@ const SignUp = () => {
             onChange={changeHandler}
             onFocus={focusHandler}
           ></input>
-          {errors.name && focused.name && <span>{errors.name}</span>}
+          {errors.name && focused.name && (
+            <span className={styles.errorSpan}>{errors.name}</span>
+          )}
         </div>
-        <div>
+        <div className={styles.inputContainer}>
           <label>Email</label>
           <input
+            className={
+              errors.email && focused.email
+                ? styles.textInputError
+                : styles.textInput
+            }
             type="text"
             name="email"
             value={data.email}
@@ -72,11 +88,18 @@ const SignUp = () => {
             onChange={changeHandler}
             onFocus={focusHandler}
           ></input>
-          {errors.email && focused.email && <span>{errors.email}</span>}
+          {errors.email && focused.email && (
+            <span className={styles.errorSpan}>{errors.email}</span>
+          )}
         </div>
-        <div>
+        <div className={styles.inputContainer}>
           <label>Password</label>
           <input
+            className={
+              errors.password && focused.password
+                ? styles.textInputError
+                : styles.textInput
+            }
             type="password"
             name="password"
             value={data.password}
@@ -85,12 +108,17 @@ const SignUp = () => {
             onFocus={focusHandler}
           ></input>
           {errors.password && focused.password && (
-            <span>{errors.password}</span>
+            <span className={styles.errorSpan}>{errors.password}</span>
           )}
         </div>
-        <div>
+        <div className={styles.inputContainer}>
           <label>Confirm Password</label>
           <input
+            className={
+              errors.confirmPassword && focused.confirmPassword
+                ? styles.textInputError
+                : styles.textInput
+            }
             type="password"
             name="confirmPassword"
             value={data.confirmPassword}
@@ -99,21 +127,28 @@ const SignUp = () => {
             onFocus={focusHandler}
           ></input>
           {errors.confirmPassword && focused.confirmPassword && (
-            <span>{errors.confirmPassword}</span>
+            <span className={styles.errorSpan}>{errors.confirmPassword}</span>
           )}
         </div>
-        <div>
-          <label>You accept our terms and conditions</label>
-          <input
-            type="checkbox"
-            name="policy"
-            value={data.policy}
-            onChange={changeHandler}
-            onFocus={focusHandler}
-          ></input>
-          {errors.policy && focused.policy && <span>{errors.policy}</span>}
+        <div className={styles.checkboxContainer}>
+          <div className={styles.checkbox}>
+            <label>
+              I accept <span>terms of privacy policy</span>
+            </label>
+            <input
+              className={styles.check}
+              type="checkbox"
+              name="policy"
+              value={data.policy}
+              onChange={changeHandler}
+              onFocus={focusHandler}
+            />
+          </div>
+          {errors.policy && focused.policy && (
+            <span className={styles.errorSpan}>{errors.policy}</span>
+          )}
         </div>
-        <div>
+        <div className={styles.bottomButtons}>
           <a href="/">Login</a>
           <button type="submit">Sign in</button>
         </div>
