@@ -1,4 +1,4 @@
-export const validate = (data) => {
+export const validate = (data, type) => {
   const emailRegex = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
   const errors = {
     name: "",
@@ -7,14 +7,6 @@ export const validate = (data) => {
     confirmPassword: "",
     policy: "",
   };
-
-  if (!data.name.trim()) {
-    errors.name = "Enter your name";
-  } else if (data.name.trim().length < 2) {
-    errors.name = "Name should be at least 2 characters";
-  } else {
-    delete errors.name;
-  }
 
   if (!data.email) {
     errors.email = "Please enter an email address";
@@ -32,18 +24,32 @@ export const validate = (data) => {
     delete errors.password;
   }
 
-  if (!data.confirmPassword.trim()) {
-    errors.confirmPassword = "Please confirm your password";
-  } else if (data.confirmPassword !== data.password) {
-    errors.confirmPassword = "Passwords do not match";
-  } else {
-    delete errors.confirmPassword;
-  }
+  if (type === "signup") {
+    if (!data.name.trim()) {
+      errors.name = "Enter your name";
+    } else if (data.name.trim().length < 2) {
+      errors.name = "Name should be at least 2 characters";
+    } else {
+      delete errors.name;
+    }
+    if (!data.confirmPassword.trim()) {
+      errors.confirmPassword = "Please confirm your password";
+    } else if (data.confirmPassword !== data.password) {
+      errors.confirmPassword = "Passwords do not match";
+    } else {
+      delete errors.confirmPassword;
+    }
 
-  if (!data.policy) {
-    errors.policy = "Please accept our terms";
-  } else {
-    delete errors.policy;
+    if (!data.policy) {
+      errors.policy = "Please accept our terms";
+    } else {
+      delete errors.policy;
+    }
+  }
+  if (type === "login") {
+    delete errors.policy
+    delete errors.confirmPassword
+    delete errors.name
   }
 
   return errors;

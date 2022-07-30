@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./SignUp.module.css";
@@ -18,7 +19,7 @@ const SignUp = () => {
   const [focused, setFocused] = useState({});
 
   useEffect(() => {
-    setErrors(validate(data));
+    setErrors(validate(data, "signup"));
   }, [data]);
 
   const changeHandler = (event) => {
@@ -149,8 +150,8 @@ const SignUp = () => {
           )}
         </div>
         <div className={styles.bottomButtons}>
-          <a href="/">Login</a>
-          <button type="submit">Sign in</button>
+          <Link to="/login">Login</Link>
+          <button type="submit">Sign up</button>
         </div>
       </form>
       <ToastContainer />
